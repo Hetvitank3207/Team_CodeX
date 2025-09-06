@@ -265,72 +265,62 @@
     document.getElementById('donorForm').addEventListener('submit', function(e) {
   e.preventDefault();
 
-  const name = document.getElementById('donorName').value;
-  const phone = document.getElementById('donorPhone').value;
-  const email = document.getElementById('donorEmail').value;
-  const bloodType = document.getElementById('donorBloodType').value;
-  const location = document.getElementById('donorLocation').value;
-  const lat = parseFloat(document.getElementById('donorLat').value);
-  const lng = parseFloat(document.getElementById('donorLng').value);
-  const radius = parseInt(document.getElementById('donorRadius').value);
+  const formData = new FormData();
+    formData.append('name', document.getElementById('donorName').value);
+    formData.append('phone', document.getElementById('donorPhone').value);
+    formData.append('email', document.getElementById('donorEmail').value);
+    formData.append('blood_type', document.getElementById('donorBloodType').value);
+    formData.append('location', document.getElementById('donorLocation').value);
+    formData.append('lat', document.getElementById('donorLat').value);
+    formData.append('lng', document.getElementById('donorLng').value);
+    formData.append('radius', document.getElementById('donorRadius').value);
 
-  let donors = JSON.parse(localStorage.getItem('donors')) || [];
-
-  // check if donor already exists
-  const index = donors.findIndex(d => d.email === email || d.phone === phone);
-
-  if (index !== -1) {
-    // update existing donor
-    donors[index] = { name, phone, email, bloodType, location, lat, lng, radius };
-    alert("Your donor information has been updated successfully!");
-  } else {
-    // add new donor
-    donors.push({ name, phone, email, bloodType, location, lat, lng, radius });
-    alert("Donor registered successfully!");
-  }
-
-  localStorage.setItem('donors', JSON.stringify(donors));
+    fetch('donor.php', { method: 'POST', body: formData })
+      .then(res => res.json())
+      .then(data => alert(data.message))
+      .catch(() => alert("Error registering donor!"));
   this.reset();
 });
 
 
     document.getElementById('patientForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const bloodType = document.getElementById('patientBloodType').value;
-      const lat = parseFloat(document.getElementById('patientLat').value);
-      const lng = parseFloat(document.getElementById('patientLng').value);
-      const radius = parseInt(document.getElementById('patientRadius').value);
+      const formData = new FormData();
+    formData.append('blood_type', document.getElementById('patientBloodType').value);
+    formData.append('location', document.getElementById('patientLocation').value);
+    formData.append('lat', document.getElementById('patientLat').value);
+    formData.append('lng', document.getElementById('patientLng').value);
+    formData.append('radius', document.getElementById('patientRadius').value);
 
-      let donors = JSON.parse(localStorage.getItem('donors')) || [];
-      let matchingDonors = donors.filter(d => {
-        if (d.bloodType !== bloodType) return false;
-        if (!d.lat || !d.lng || !lat || !lng) return true;
-        const dist = getDistance(lat, lng, d.lat, d.lng);
-        return dist <= radius;
-      });
+    fetch('patient.php', { method: 'POST', body: formData })
+      .then(res => res.json())
+      .then(data => {
+        const resultsDiv = document.getElementById('results');
+        const donorList = document.getElementById('donorList');
+        donorList.innerHTML = '';
 
-      const resultsDiv = document.getElementById('results');
-      const donorList = document.getElementById('donorList');
-      donorList.innerHTML = '';
-      if (matchingDonors.length > 0) {
-        matchingDonors.forEach(d => {
-          const div = document.createElement('div');
-          div.className = 'p-4 border rounded-lg bg-green-50 shadow';
-          div.innerHTML = `
-            <p><strong>Name:</strong> ${d.name}</p>
-            <p><strong>Phone:</strong> ${d.phone}</p>
-            <p><strong>Email:</strong> ${d.email}</p>
-            <p><strong>Blood Type:</strong> ${d.bloodType}</p>
-            <p><strong>Location:</strong> ${d.location}</p>
-          `;
-          donorList.appendChild(div);
-        });
-      } else {
-        donorList.innerHTML = '<p class="text-red-600">No matching donors found in this radius.</p>';
-      }
-      resultsDiv.classList.remove('hidden');
-    });
-  </script>
+        if (data.status === "success" && data.matches.length > 0) {
+          data.matches.forEach(d => {
+            const div = document.createElement('div');
+            div.className = 'p-4 border rounded-lg bg-green-50 shadow';
+            div.innerHTML = `
+              <p><strong>Name:</strong> ${d.name}</p>
+              <p><strong>Phone:</strong> ${d.phone}</p>
+              <p><strong>Email:</strong> ${d.email}</p>
+              <p><strong>Blood Type:</strong> ${d.bloodType}</p>
+              <p><strong>Location:</strong> ${d.location}</p>
+              <p><strong>Distance:</strong> ${d.distance} km</p>
+            `;
+            donorList.appendChild(div);
+          });
+        } else {
+          donorList.innerHTML = '<p class="text-red-600">No matching donors found in this radius.</p>';
+        }
+        resultsDiv.classList.remove('hidden');
+      })
+      .catch(() => alert("Error fetching donors!"));
+  });
+</script>
 
 </body>
 </html>
