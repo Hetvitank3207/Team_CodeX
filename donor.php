@@ -1,41 +1,50 @@
 <?php
 header("Content-Type: application/json");
-$file = _DIR_ . "/donors.json";
 
-$data = json_decode(file_get_contents($file), true) ?? [];
+$file = __DIR__ . "/donors.txt";
+if (!file_exists($file)) {
+    file_put_contents($file, json_encode([], JSON_PRETTY_PRINT));
+}
 
-$name      = $_POST['name'] ?? '';
-$phone     = $_POST['phone'] ?? '';
-$email     = $_POST['email'] ?? '';
+$name      = trim($_POST['name'] ?? '');
+$phone     = trim($_POST['phone'] ?? '');
+$email     = trim($_POST['email'] ?? '');
 $bloodType = $_POST['blood_type'] ?? '';
-$location  = $_POST['location'] ?? '';
+$location  = trim($_POST['location'] ?? '');
 $lat       = $_POST['lat'] ?? '';
 $lng       = $_POST['lng'] ?? '';
 $radius    = $_POST['radius'] ?? '';
 
-if (!$name || !$phone || !$email || !$bloodType || !$location || !$lat || !$lng || !$radius) {
+if (!$name || !$phone || !$email || !$bloodType || !$location || !$radius) {
     echo json_encode(["status" => "error", "message" => "All fields are required."]);
     exit;
 }
 
-$newDonor = [
-    "id"        => uniqid(),
-    "name"      => $name,
-    "phone"     => $phone,
-    "email"     => $email,
-    "blood_type"=> $bloodType,
-    "location"  => $location,
-    "latitude"  => (float)$lat,
-    "longitude" => (float)$lng,
-    "radius"    => (int)$radius,
-    "created_at"=> date("Y-m-d H:i:s")
+// Reject invalid blood type selection from frontend dropdown
+if ($bloodType === "" || strtolower($bloodType) === "select type") {
+    echo json_encode(["status" => "error", "message" => "Please select a valid blood type."]);
+    exit;
+}
+
+// Validate latitude and longitude as float or null
+$latitude = (is_numeric($lat)) ? floatval($lat) : null;
+$longitude = (is_numeric($lng)) ? floatval($lng) : null;
+
+// Prepare donor record
+$donor = [
+    "id"         => uniqid(),
+    "name"       => $name,
+    "phone"      => $phone,
+    "email"      => $email,
+    "blood_type" => strtoupper($bloodType),
+    "location"   => $location,
+    "latitude"   => $latitude,
+    "longitude"  => $longitude,
+    "created_at" => date("Y-m-d H:i:s")
 ];
 
-$data[] = $newDonor;
+// Append donor record as JSON-encoded line to file
+file_put_contents($file, json_encode($donor) . PHP_EOL, FILE_APPEND);
 
-if (file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT))) {
-    echo json_encode(["status" => "success", "message" => "Donor registered successfully!"]);
-} else {
-    echo json_encode(["status" => "error", "message" => "Failed to save donor."]);
-}
+echo json_encode(["status" => "success", "message" => "Donor registered successfully."]);
 ?>
