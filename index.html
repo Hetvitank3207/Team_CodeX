@@ -1,299 +1,336 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloodLink - Connecting Donors & Patients</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <style>
-        /* Custom animations for attractiveness */
-        .fade-in { animation: fadeIn 1s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .bounce { animation: bounce 2s infinite; }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
-        .pulse { animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        /* Custom styles for location input */
-        .location-input { display: flex; align-items: center; gap: 10px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BloodLink - Connecting Donors & Patients</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    .fade-in { animation: fadeIn 1s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .bounce { animation: bounce 2s infinite; }
+    @keyframes bounce { 0%,20%,50%,80%,100% { transform: translateY(0);} 40% { transform: translateY(-10px);} 60% { transform: translateY(-5px);} }
+    .pulse { animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { transform: scale(1);} 50% { transform: scale(1.05);} 100% { transform: scale(1);} }
+    .location-input { display: flex; align-items: center; gap: 10px; }
+  </style>
 </head>
 <body class="bg-gradient-to-br from-red-50 to-pink-50 font-sans fade-in">
-    <!-- Header Navigation -->
-    <header class="bg-red-600 text-white shadow-lg">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <i class="fas fa-tint text-3xl mr-3"></i>
-                <h1 class="text-2xl font-bold">BloodLink</h1>
-            </div>
-            <ul class="flex space-x-6">
-                <li><a href="#hero" class="hover:text-red-200 transition">Home</a></li>
-                <li><a href="#donors" class="hover:text-red-200 transition">For Donors</a></li>
-                <li><a href="#patients" class="hover:text-red-200 transition">For Patients</a></li>
-                <li><a href="#about" class="hover:text-red-200 transition">About</a></li>
-                <li><a href="#contact" class="hover:text-red-200 transition">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section id="hero" class="py-20 text-center">
-        <div class="container mx-auto px-6">
-            <h2 class="text-5xl font-extrabold text-gray-800 mb-6">Save Lives Today<br><span class="text-red-600">Connect with Urgency</span></h2>
-            <p class="text-xl text-gray-600 mb-8">Bridge the gap between blood donors and those in desperate need within your precise geographic radius. Your donation can make the difference.</p>
-            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/41cd45eb-58fe-49d0-94d1-73185f9324be.png" alt="Heartwarming scene of diverse volunteers donating blood in a modern clinic, surrounded by caring medical staff, bright lighting, emotional expressions of gratitude and hope, realistic style with warm reds and calming blues" class="w-full max-w-4xl mx-auto rounded-lg shadow-xl mb-8" />
-            <button class="bg-red-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-red-700 transition transform hover:scale-105 bounce" onclick="scrollToSection('donors')">Become a Donor</button>
-            <button class="bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition transform hover:scale-105 ml-4" onclick="scrollToSection('patients')">Request Blood</button>
-        </div>
-    </section>
-
-    <!-- For Donors Section -->
-    <section id="donors" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <h3 class="text-4xl font-bold text-center text-gray-800 mb-10">For Blood Donors</h3>
-            <div class="md:flex md:space-x-10">
-                <div class="md:w-1/2 mb-10">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4523b202-a268-4f4d-add8-dc0d109dba08.png" alt="Smiling young adult donor giving blood with nurse nearby, compassionate atmosphere, medical equipment, positive energy, photorealistic with gentle lighting and encouraging smiles" class="w-full rounded-lg shadow-lg" />
-                    <p class="mt-4 text-gray-600">Join our community of heroes. Use your precise location to match with those within your specified radius.</p>
-                </div>
-                <div class="md:w-1/2">
-                    <form id="donorForm" class="bg-gray-100 p-8 rounded-lg shadow-lg">
-                        <h4 class="text-2xl font-semibold mb-6 text-red-600">Register as Donor</h4>
-                        <div class="mb-4">
-                            <label class="block text-gray-700">Blood Type:</label>
-                            <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" id="donorBloodType" required>
-                                <option>Select Type</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                        <label class="block text-gray-700">Location (City/Address):</label>
-                        <div class="location-input">
-                        <input type="text" class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" id="donorLocation" placeholder="Enter your address or use current location" required>
-                        <button type="button" onclick="getLocation('donor')" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Locate Me</button>
-                        </div>
-                        <input type="hidden" id="donorLat">
-                        <input type="hidden" id="donorLng">
-                    </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700">Radius (km):</label>
-                            <input type="number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" id="donorRadius" placeholder="e.g., 50" value="50" required>
-                        </div>
-                        <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition">Register</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- For Patients Section -->
-    <section id="patients" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <h3 class="text-4xl font-bold text-center text-gray-800 mb-10">For Those in Need</h3>
-            <div class="md:flex md:space-x-10">
-                <div class="md:w-1/2">
-                    <form id="patientForm" class="bg-white p-8 rounded-lg shadow-lg">
-                        <h4 class="text-2xl font-semibold mb-6 text-blue-600">Request Blood</h4>
-                        <div class="mb-4">
-                            <label class="block text-gray-700">Blood Type Needed:</label>
-                            <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="patientBloodType" required>
-                                <option>Select Type</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                        <label class="block text-gray-700">Location (City/Address):</label>
-                        <div class="location-input">
-                        <input type="text" class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="patientLocation" placeholder="Enter city or use current location" required>
-                        <button type="button" onclick="getLocation('patient')" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Locate Me</button>
-                        </div>
-                        <input type="hidden" id="patientLat">
-                        <input type="hidden" id="patientLng">
-                    </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700">Radius (km):</label>
-                            <input type="number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="patientRadius" placeholder="e.g., 50" value="50" required>
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">Find Donors</button>
-                    </form>
-                </div>
-                <div class="md:w-1/2 mb-10">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/aefbab55-b474-455d-b6e3-46b4a576142e.png" alt="Hopeful patient receiving blood transfusion in hospital room, attentive doctors and nurses, comforting environment with soft lighting, emotional relief and care, illustration style with warm tones and supportive gestures" class="w-full rounded-lg shadow-lg mt-10 md:mt-0" />
-                    <p class="mt-4 text-gray-600">In an emergency, every minute counts. Use your precise location to find donors within your specified radius.</p>
-                </div>
-            </div>
-            <div id="results" class="mt-10 hidden">
-                <h4 class="text-2xl font-semibold mb-6 text-green-600">Matching Donors Within Radius</h4>
-                <div id="donorList" class="space-y-4"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-20 bg-white">
-        <div class="container mx-auto px-6 text-center">
-            <h3 class="text-4xl font-bold text-gray-800 mb-6">About BloodLink</h3>
-            <p class="text-lg text-gray-600 mb-8">BloodLink is dedicated to saving lives by connecting willing blood donors with patients in urgent need, ensuring timely access within a specific geographic radius. We're building a community of lifesavers.</p>
-            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3a8455a8-728f-440d-a6b1-7770ac3b33c8.png" alt="Diverse group of people united in support, holding hands in a circle, symbols of medical aid and hope, vibrant colors, inspirational artwork representing community and health" class="w-full max-w-2xl mx-auto rounded-lg shadow-lg" />
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-<section id="contact" class="py-20 bg-gray-50">
-  <div class="container mx-auto px-6">
-    <h3 class="text-4xl font-bold text-gray-800 mb-6 text-center">Contact Us</h3>
-    <p class="text-lg text-gray-600 mb-8 text-center">Have questions or need assistance? Reach out to us.</p>
-        <form class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg text-left">
-      <div class="mb-4">
-        <label class="block text-gray-700">Name:</label>
-        <input type="text" class="w-full px-4 py-2 border rounded-lg" placeholder="Your Name" required>
+  
+  <!-- Header -->
+  <header class="bg-red-600 text-white shadow-lg">
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center">
+        <i class="fas fa-tint text-3xl mr-3"></i>
+        <h1 class="text-2xl font-bold">BloodLink</h1>
       </div>
-      <div class="mb-4">
-        <label class="block text-gray-700">Email:</label>
-        <input type="email" class="w-full px-4 py-2 border rounded-lg" placeholder="Your Email" required>
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700">Message:</label>
-        <textarea class="w-full px-4 py-2 border rounded-lg" rows="4" placeholder="Your Message" required></textarea>
-      </div>
-      <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition">Send Message</button>
-    </form>
-  </div>
-</section>
-
-
-    <!-- Footer -->
-<footer class="bg-red-600 text-white py-10">
-  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-    
-    <!-- About -->
-    <div>
-      <h4 class="text-xl font-semibold mb-4">BloodLink</h4>
-      <p class="text-sm text-red-100">
-        Connecting blood donors with patients in need within their geographic radius.
-        Together, we can save lives.
-      </p>
-    </div>
-
-    <!-- Quick Links -->
-    <div>
-      <h4 class="text-xl font-semibold mb-4">Quick Links</h4>
-      <ul class="space-y-2">
-        <li><a href="#hero" class="hover:text-red-200">Home</a></li>
-        <li><a href="#donors" class="hover:text-red-200">For Donors</a></li>
-        <li><a href="#patients" class="hover:text-red-200">For Patients</a></li>
-        <li><a href="#about" class="hover:text-red-200">About</a></li>
-        <li><a href="#contact" class="hover:text-red-200">Contact</a></li>
+      <ul class="flex space-x-6">
+        <li><a href="#hero" class="hover:text-red-200 transition">Home</a></li>
+        <li><a href="#donors" class="hover:text-red-200 transition">For Donors</a></li>
+        <li><a href="#patients" class="hover:text-red-200 transition">For Patients</a></li>
+        <li><a href="#about" class="hover:text-red-200 transition">About</a></li>
+        <li><a href="#contact" class="hover:text-red-200 transition">Contact</a></li>
       </ul>
-    </div>
+    </nav>
+  </header>
 
-    <!-- Contact & Social -->
-    <div>
-      <h4 class="text-xl font-semibold mb-4">Contact</h4>
-      <p class="text-sm text-red-100">Email: support@bloodlink.com</p>
-      <p class="text-sm text-red-100 mb-4">Phone: +91 98765 43210</p>
-      <div class="flex space-x-4">
-        <a href="#" class="hover:text-red-200"><i class="fab fa-facebook text-xl"></i></a>
-        <a href="#" class="hover:text-red-200"><i class="fab fa-twitter text-xl"></i></a>
-        <a href="#" class="hover:text-red-200"><i class="fab fa-instagram text-xl"></i></a>
-        <a href="#" class="hover:text-red-200"><i class="fab fa-linkedin text-xl"></i></a>
+  <!-- Hero -->
+  <section id="hero" class="py-20 text-center">
+    <div class="container mx-auto px-6">
+      <h2 class="text-5xl font-extrabold text-gray-800 mb-6">Save Lives Today<br><span class="text-red-600">Connect with Urgency</span></h2>
+      <p class="text-xl text-gray-600 mb-8">Bridge the gap between blood donors and those in desperate need. Your donation can make the difference.</p>
+      <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/41cd45eb-58fe-49d0-94d1-73185f9324be.png" class="w-full max-w-4xl mx-auto rounded-lg shadow-xl mb-8" />
+      <button class="bg-red-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-red-700 transition transform hover:scale-105 bounce" onclick="scrollToSection('donors')">Become a Donor</button>
+      <button class="bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition transform hover:scale-105 ml-4" onclick="scrollToSection('patients')">Request Blood</button>
+    </div>
+  </section>
+
+  <!-- Donors -->
+  <section id="donors" class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+      <h3 class="text-4xl font-bold text-center text-gray-800 mb-10">For Blood Donors</h3>
+      <div class="md:flex md:space-x-10">
+        <div class="md:w-1/2 mb-10">
+          <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4523b202-a268-4f4d-add8-dc0d109dba08.png" class="w-full rounded-lg shadow-lg" />
+          <p class="mt-4 text-gray-600">Join our community of heroes. Use your precise location to match with patients nearby.</p>
+        </div>
+        <div class="md:w-1/2">
+          <!-- Donor Form -->
+          <form id="donorForm" class="bg-gray-100 p-8 rounded-lg shadow-lg">
+            <h4 class="text-2xl font-semibold mb-6 text-red-600">Register as Donor</h4>
+
+            <div class="mb-4">
+              <label class="block text-gray-700">Full Name:</label>
+              <input type="text" id="donorName" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Your Name" required>
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700">Phone Number:</label>
+              <input type="tel" id="donorPhone" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Your Phone" required>
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700">Email:</label>
+              <input type="email" id="donorEmail" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Your Email" required>
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700">Blood Type:</label>
+              <select id="donorBloodType" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                <option>Select Type</option><option>A+</option><option>A-</option><option>B+</option>
+                <option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+              </select>
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700">Location (City/Address):</label>
+              <div class="location-input">
+                <input type="text" id="donorLocation" class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Enter your address or use current location" required>
+                <button type="button" onclick="getLocation('donor')" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Locate Me</button>
+              </div>
+              <input type="hidden" id="donorLat">
+              <input type="hidden" id="donorLng">
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700">Radius (km):</label>
+              <input type="number" id="donorRadius" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="e.g., 50" required>
+            </div>
+
+            <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition">Register</button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="border-t border-red-500 mt-8 pt-4 text-center text-sm text-red-100">
-    © 2025 BloodLink. All rights reserved. <i class="fas fa-heart text-red-300"></i>
-  </div>
-</footer>
+  <!-- Patients -->
+  <section id="patients" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <h3 class="text-4xl font-bold text-center text-gray-800 mb-10">For Those in Need</h3>
+      <div class="md:flex md:space-x-10">
+        <div class="md:w-1/2">
+          <!-- Patient Form -->
+          <form id="patientForm" class="bg-white p-8 rounded-lg shadow-lg">
+            <h4 class="text-2xl font-semibold mb-6 text-blue-600">Request Blood</h4>
 
+            <div class="mb-4">
+              <label class="block text-gray-700">Blood Type Needed:</label>
+              <select id="patientBloodType" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <option>Select Type</option><option>A+</option><option>A-</option><option>B+</option>
+                <option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+              </select>
+            </div>
 
-    <script>
-        // Scroll to section function
-        function scrollToSection(sectionId) {
-            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-        }
+            <div class="mb-4">
+              <label class="block text-gray-700">Location (City/Address):</label>
+              <div class="location-input">
+                <input type="text" id="patientLocation" class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter city or use current location" required>
+                <button type="button" onclick="getLocation('patient')" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Locate Me</button>
+              </div>
+              <input type="hidden" id="patientLat">
+              <input type="hidden" id="patientLng">
+            </div>
 
-        // Geolocation function
-        function getLocation(type) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    document.getElementById(type + 'Lat').value = lat;
-                    document.getElementById(type + 'Lng').value = lng;
-                    // Simulate reverse geocoding for demo (in real app, use an API)
-                    fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`)
-                        .then(response => response.json())
-                        .then(data => {
-                            const city = data.city || data.locality || 'Unknown Location';
-                            document.getElementById(type + 'Location').value = city;
-                        })
-                        .catch(() => {
-                            document.getElementById(type + 'Location').value = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-                        });
-                }, function() {
-                    alert('Unable to retrieve your location. Please enter manually.');
-                });
-            } else {
-                alert('Geolocation is not supported by this browser.');
-            }
-        }
+            <div class="mb-4">
+              <label class="block text-gray-700">Radius (km):</label>
+              <input type="number" id="patientRadius" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., 50" required>
+            </div>
 
-        // Haversine formula for distance calculation (in km)
-        function getDistance(lat1, lng1, lat2, lng2) {
-            const R = 6371; // Earth's radius in km
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLng = (lng2 - lng1) * Math.PI / 180;
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                      Math.sin(dLng/2) * Math.sin(dLng/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return R * c;
-        }
+            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">Find Donors</button>
+          </form>
+        </div>
 
-        // Donor registration
-        document.getElementById('donorForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const bloodType = document.getElementById('donorBloodType').value;
-            const location = document.getElementById('donorLocation').value;
-            const radius = parseFloat(document.getElementById('donorRadius').value);
-            const lat = parseFloat(document.getElementById('donorLat').value) || 0;
-            const lng = parseFloat(document.getElementById('donorLng').value) || 0;
-            const donorData = { bloodType, location, radius, lat, lng };
-            let donors = JSON.parse(localStorage.getItem('donors')) || [];
-            donors.push(donorData);
-            localStorage.setItem('donors', JSON.stringify(donors));
-            alert('Registration successful! We\'ll notify you of matches in your radius.');
-            this.reset();
+        <div class="md:w-1/2 mb-10">
+          <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/aefbab55-b474-455d-b6e3-46b4a576142e.png" class="w-full rounded-lg shadow-lg mt-10 md:mt-0" />
+          <p class="mt-4 text-gray-600">In an emergency, every minute counts. Use your location to find donors within your specified radius.</p>
+        </div>
+      </div>
+
+      <div id="results" class="mt-10 hidden">
+        <h4 class="text-2xl font-semibold mb-6 text-green-600">Matching Donors Within Radius</h4>
+        <div id="donorList" class="space-y-4"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="py-20 bg-white">
+    <div class="container mx-auto px-6 text-center">
+      <h3 class="text-4xl font-bold text-gray-800 mb-6">About BloodLink</h3>
+      <p class="text-lg text-gray-600 mb-8">BloodLink is dedicated to saving lives by connecting willing blood donors with patients in urgent need, ensuring timely access within a specific geographic radius. We're building a community of lifesavers.</p>
+      <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3a8455a8-728f-440d-a6b1-7770ac3b33c8.png" class="w-full max-w-2xl mx-auto rounded-lg shadow-lg" />
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <h3 class="text-4xl font-bold text-gray-800 mb-6 text-center">Contact Us</h3>
+      <p class="text-lg text-gray-600 mb-8 text-center">Have questions or need assistance? Reach out to us.</p>
+      <form class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg text-left">
+        <div class="mb-4">
+          <label class="block text-gray-700">Name:</label>
+          <input type="text" class="w-full px-4 py-2 border rounded-lg" placeholder="Your Name" required>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Email:</label>
+          <input type="email" class="w-full px-4 py-2 border rounded-lg" placeholder="Your Email" required>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Message:</label>
+          <textarea class="w-full px-4 py-2 border rounded-lg" rows="4" placeholder="Your Message" required></textarea>
+        </div>
+        <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-red-600 text-white py-10">
+    <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+      <div>
+        <h4 class="text-xl font-semibold mb-4">BloodLink</h4>
+        <p class="text-sm text-red-100">Connecting blood donors with patients in need. Together, we can save lives.</p>
+      </div>
+      <div>
+        <h4 class="text-xl font-semibold mb-4">Quick Links</h4>
+        <ul class="space-y-2">
+          <li><a href="#hero" class="hover:text-red-200">Home</a></li>
+          <li><a href="#donors" class="hover:text-red-200">For Donors</a></li>
+          <li><a href="#patients" class="hover:text-red-200">For Patients</a></li>
+          <li><a href="#about" class="hover:text-red-200">About</a></li>
+          <li><a href="#contact" class="hover:text-red-200">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-xl font-semibold mb-4">Contact</h4>
+        <p class="text-sm text-red-100">Email: support@bloodlink.com</p>
+        <p class="text-sm text-red-100 mb-4">Phone: +91 98765 43210</p>
+        <div class="flex space-x-4">
+          <a href="#"><i class="fab fa-facebook text-xl"></i></a>
+          <a href="#"><i class="fab fa-twitter text-xl"></i></a>
+          <a href="#"><i class="fab fa-instagram text-xl"></i></a>
+          <a href="#"><i class="fab fa-linkedin text-xl"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-red-500 mt-8 pt-4 text-center text-sm text-red-100">
+      © 2025 BloodLink. All rights reserved. <i class="fas fa-heart text-red-300"></i>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    function scrollToSection(sectionId) {
+      document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function getLocation(type) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          document.getElementById(type + 'Lat').value = lat;
+          document.getElementById(type + 'Lng').value = lng;
+          fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`)
+            .then(response => response.json())
+            .then(data => {
+              const city = data.city || data.locality || 'Unknown Location';
+              document.getElementById(type + 'Location').value = city;
+            })
+            .catch(() => {
+              document.getElementById(type + 'Location').value = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+            });
+        }, function() {
+          alert('Unable to retrieve your location. Please enter manually.');
         });
+      } else {
+        alert('Geolocation not supported.');
+      }
+    }
 
-        // Patient request
-        document.getElementById('patientForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const bloodType = document.getElementById('patientBloodType').value;
-            const location = document.getElementById('patientLocation').value;
-            const radius = parseFloat(document.getElementById('patientRadius').value);
-            const plat = parseFloat(document.getElementById('patientLat').value) || 0;
-            const plng = parseFloat(document.getElementById('patientLng').value) || 0;
-            const donors = JSON.parse(localStorage.getItem('donors')) || [];
-            const matches = donors.filter(d => d.bloodType === bloodType && getDistance(plat, plng, d.lat, d.lng) <= radius);
-            const resultsDiv = document.getElementById('results');
-            const donorList = document.getElementById('donorList');
-            donorList.innerHTML = '';
-            if (matches.length > 0) {
-                matches.forEach(match => {
-                    const dist = getDistance(plat, plng, match.lat, match.lng).toFixed(1);
-                    const div = document.createElement('div');
-                    div.className = 'bg-white p-4 rounded-lg shadow';
-                    div.innerHTML = `<p><strong>Blood Type:</strong> ${match.bloodType}</p><p><strong>Location:</strong> ${match.location}</p><p><strong>Distance:</strong> ${dist} km</p>`;
-                    donorList.appendChild(div);
-                });
-            } else {
-                donorList.innerHTML = '<p>No matches found within your radius. Try expanding your radius or check back later.</p>';
-            }
-            resultsDiv.classList.remove('hidden');
-            scrollToSection('results');
+    function getDistance(lat1, lng1, lat2, lng2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLng = (lng2 - lng1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLng/2) * Math.sin(dLng/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+
+    document.getElementById('donorForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('donorName').value;
+  const phone = document.getElementById('donorPhone').value;
+  const email = document.getElementById('donorEmail').value;
+  const bloodType = document.getElementById('donorBloodType').value;
+  const location = document.getElementById('donorLocation').value;
+  const lat = parseFloat(document.getElementById('donorLat').value);
+  const lng = parseFloat(document.getElementById('donorLng').value);
+  const radius = parseInt(document.getElementById('donorRadius').value);
+
+  let donors = JSON.parse(localStorage.getItem('donors')) || [];
+
+  // check if donor already exists
+  const index = donors.findIndex(d => d.email === email || d.phone === phone);
+
+  if (index !== -1) {
+    // update existing donor
+    donors[index] = { name, phone, email, bloodType, location, lat, lng, radius };
+    alert("Your donor information has been updated successfully!");
+  } else {
+    // add new donor
+    donors.push({ name, phone, email, bloodType, location, lat, lng, radius });
+    alert("Donor registered successfully!");
+  }
+
+  localStorage.setItem('donors', JSON.stringify(donors));
+  this.reset();
+});
+
+
+    document.getElementById('patientForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const bloodType = document.getElementById('patientBloodType').value;
+      const lat = parseFloat(document.getElementById('patientLat').value);
+      const lng = parseFloat(document.getElementById('patientLng').value);
+      const radius = parseInt(document.getElementById('patientRadius').value);
+
+      let donors = JSON.parse(localStorage.getItem('donors')) || [];
+      let matchingDonors = donors.filter(d => {
+        if (d.bloodType !== bloodType) return false;
+        if (!d.lat || !d.lng || !lat || !lng) return true;
+        const dist = getDistance(lat, lng, d.lat, d.lng);
+        return dist <= radius;
+      });
+
+      const resultsDiv = document.getElementById('results');
+      const donorList = document.getElementById('donorList');
+      donorList.innerHTML = '';
+      if (matchingDonors.length > 0) {
+        matchingDonors.forEach(d => {
+          const div = document.createElement('div');
+          div.className = 'p-4 border rounded-lg bg-green-50 shadow';
+          div.innerHTML = `
+            <p><strong>Name:</strong> ${d.name}</p>
+            <p><strong>Phone:</strong> ${d.phone}</p>
+            <p><strong>Email:</strong> ${d.email}</p>
+            <p><strong>Blood Type:</strong> ${d.bloodType}</p>
+            <p><strong>Location:</strong> ${d.location}</p>
+          `;
+          donorList.appendChild(div);
         });
-    </script>
+      } else {
+        donorList.innerHTML = '<p class="text-red-600">No matching donors found in this radius.</p>';
+      }
+      resultsDiv.classList.remove('hidden');
+    });
+  </script>
+
 </body>
 </html>
-</content>
-</create_file>
