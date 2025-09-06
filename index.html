@@ -1,21 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloodLink - Connecting Donors & Patients</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <style>
-        /* Custom animations for attractiveness */
-        .fade-in { animation: fadeIn 1s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .bounce { animation: bounce 2s infinite; }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
-        /* Blood drop icon simulation */
-        .blood-drop::before { content: '\f043'; font-family: 'Font Awesome 5 Free'; color: #e53e3e; font-size: 2rem; position: absolute; top: -10px; left: 10px; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BloodLink - Connecting Donors & Patients</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome 6 CSS CDN -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-pO2H8lXl8r6GyvC7iKbEczb3jSRUueUI72zPtjr4MWpEIDhN7LvV1H6plP7KW0T5uGke/HvZPYF9G4WpBBbOWg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <style>
+    /* Custom animations for attractiveness */
+    .fade-in {
+      animation: fadeIn 1s ease-in;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    .bounce {
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    /* Blood drop icon simulation */
+    .blood-drop::before {
+      content: '\f043';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      color: #e53e3e;
+      font-size: 2rem;
+      position: absolute;
+      top: -10px;
+      left: 10px;
+    }
+  </style>
 </head>
+
 <body class="bg-gradient-to-br from-red-50 to-pink-50 font-sans fade-in">
     <!-- Header Navigation -->
     <header class="bg-red-600 text-white shadow-lg">
@@ -51,7 +98,7 @@
             <h3 class="text-4xl font-bold text-center text-gray-800 mb-10">For Blood Donors</h3>
             <div class="md:flex md:space-x-10">
                 <div class="md:w-1/2 mb-10">
-                    <img src="https://placehold.co/600x400/ff9999/white" alt="Smiling young adult donor giving blood with nurse nearby, compassionate atmosphere, medical equipment, positive energy, photorealistic with gentle lighting and encouraging smiles" class="w-full rounded-lg shadow-lg" />
+                    <img src="Screenshot (288).png" alt="Smiling young adult donor giving blood with nurse nearby, compassionate atmosphere, medical equipment, positive energy, photorealistic with gentle lighting and encouraging smiles" class="w-full rounded-lg shadow-lg" />
                     <p class="mt-4 text-gray-600">Join our community of heroes. Register your details and get notified when someone in your area needs your blood type.</p>
                 </div>
                 <div class="md:w-1/2">
@@ -120,7 +167,7 @@
         <div class="container mx-auto px-6 text-center">
             <h3 class="text-4xl font-bold text-gray-800 mb-6">About BloodLink</h3>
             <p class="text-lg text-gray-600 mb-8">BloodLink is dedicated to saving lives by connecting willing blood donors with patients in urgent need, ensuring timely access within a specific geographic area. We're building a community of lifesavers.</p>
-            <img src="https://placehold.co/800x400/ffcccc/white" alt="Diverse group of people united in support, holding hands in a circle, symbols of medical aid and hope, vibrant colors, inspirational artwork representing community and health" class="w-full max-w-2xl mx-auto rounded-lg shadow-lg" />
+            <img src="Screenshot (289).png" alt="Diverse group of people united in support, holding hands in a circle, symbols of medical aid and hope, vibrant colors, inspirational artwork representing community and health" class="w-full max-w-2xl mx-auto rounded-lg shadow-lg" />
         </div>
     </section>
 
@@ -144,6 +191,20 @@
                 </div>
                 <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition">Send Message</button>
             </form>
+
+             <!-- Social Media Icons -->
+        <div class="mt-10 flex justify-center space-x-6 text-red-600 text-2xl">
+            <a href="https://facebook.com/BloodLink" target="_blank" aria-label="Facebook" class="hover:text-red-800 transition">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://instagram.com/BloodLink" target="_blank" aria-label="Instagram" class="hover:text-red-800 transition">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://twitter.com/BloodLink" target="_blank" aria-label="Twitter" class="hover:text-red-800 transition">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+
         </div>
     </section>
 
