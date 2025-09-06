@@ -233,6 +233,7 @@
             donors.push(donorData);
             localStorage.setItem('donors', JSON.stringify(donors));
             alert('Registration successful! We\'ll notify you of matches.');
+            this.reset();
         });
 
         // Patient request
@@ -257,6 +258,7 @@
                 donorList.innerHTML = '<p>No matches found. Try expanding your radius or check back later.</p>';
             }
             resultsDiv.classList.remove('hidden');
+            this.reset();
         });
     </script>
 </body>
