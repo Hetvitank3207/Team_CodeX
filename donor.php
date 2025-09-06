@@ -1,7 +1,6 @@
 <?php
 header("Content-Type: application/json");
-
-
+$file = _DIR_ . "/donors.json";
 
 $data = json_decode(file_get_contents($file), true) ?? [];
 
