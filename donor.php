@@ -1,11 +1,16 @@
 <?php
 header("Content-Type: application/json");
 
-$file = __DIR__ . "/donors.txt";
-if (!file_exists($file)) {
-    file_put_contents($file, json_encode([], JSON_PRETTY_PRINT));
+$file = __DIR__ . "/bloodlink_data.json"; // rename to your JSON filename
+
+// Load existing data
+if (file_exists($file)) {
+    $data = json_decode(file_get_contents($file), true);
+} else {
+    $data = ["donors" => [], "patients" => []];
 }
 
+// Gather input
 $name      = trim($_POST['name'] ?? '');
 $phone     = trim($_POST['phone'] ?? '');
 $email     = trim($_POST['email'] ?? '');
@@ -20,31 +25,24 @@ if (!$name || !$phone || !$email || !$bloodType || !$location || !$radius) {
     exit;
 }
 
-// Reject invalid blood type selection from frontend dropdown
-if ($bloodType === "" || strtolower($bloodType) === "select type") {
-    echo json_encode(["status" => "error", "message" => "Please select a valid blood type."]);
-    exit;
-}
-
-// Validate latitude and longitude as float or null
-$latitude = (is_numeric($lat)) ? floatval($lat) : null;
-$longitude = (is_numeric($lng)) ? floatval($lng) : null;
-
-// Prepare donor record
-$donor = [
-    "id"         => uniqid(),
+// Prepare donor data
+$newDonor = [
     "name"       => $name,
     "phone"      => $phone,
     "email"      => $email,
     "blood_type" => strtoupper($bloodType),
     "location"   => $location,
-    "latitude"   => $latitude,
-    "longitude"  => $longitude,
-    "created_at" => date("Y-m-d H:i:s")
+    "lat"        => $lat,
+    "lng"        => $lng,
+    "radius"     => $radius,
+    "time"       => date("Y-m-d H:i:s")
 ];
 
-// Append donor record as JSON-encoded line to file
-file_put_contents($file, json_encode($donor) . PHP_EOL, FILE_APPEND);
+// Append donor to the "donors" array
+$data["donors"][] = $newDonor;
+
+// Save back to file
+file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
 
 echo json_encode(["status" => "success", "message" => "Donor registered successfully."]);
 ?>
